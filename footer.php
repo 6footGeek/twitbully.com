@@ -2,7 +2,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>A <a href="//www.kaceycoughlin.com" title="Kacey Coughlin Web Design and Development">Kacey Coughlin</a> joint. Forked by <a href="http://6footgeek.com" title="6footGeek Wordpress Development">6footGeek</a> 2014</p>
+                    <p>Inspired by <a href="//www.kaceycoughlin.com" title="Kacey Coughlin Web Design and Development">Kacey Coughlin</a> joint. Developed by <a href="http://6footgeek.com" title="6footGeek Software Development">6footGeek</a> 2014</p>
                 </div>
             </div>
         </div>
