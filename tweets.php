@@ -37,9 +37,9 @@ $scores = array(); //this is where data from data.txt will be stored
 $handle = fopen("negativelist.csv","r") or die("Cant access wordlist, check filename!");
 
 while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
-  //$row = explode(",", $data);
-  $word = trim(strtolower($row[0]));
-  $scores[$word] = trim($row[1]);
+	//$row = explode(",", $data);
+	$word = trim(strtolower($row[0]));
+	$scores[$word] = trim($row[1]);
 }
 
 fclose($handle);
@@ -52,43 +52,43 @@ $allWords = 0;
 
 // Search for words in tweets
 for($t=0;$t<$tweets_count;$t++) {
-  $phrase = explode(" ", $tweets[$t]);
+	$phrase = explode(" ", $tweets[$t]);
 
-  $stream .= "<tr><td>";
+	$stream .= "<tr><td>";
 
 
-  for ($i=0,$max=count($phrase);$i<$max;$i++) {
+	for ($i=0,$max=count($phrase);$i<$max;$i++) {
             ++$allWords;
-    if (array_key_exists(strtolower($phrase[$i]), $scores)) {
+		if (array_key_exists(strtolower($phrase[$i]), $scores)) {
         ++$detectedWords; //collect amount of words in array
 
-        $this_score = $scores[$phrase[$i]];
-        $score = $score+$this_score;
+				$this_score = $scores[$phrase[$i]];
+				$score = $score+$this_score;
         $tweetAnalytics[] = $phrase[$i]; // Set up array for analytics
 
 
-        // Highlight word based on score of word
-        $stream .= "<span ";
+				// Highlight word based on score of word
+				$stream .= "<span ";
             if ($this_score >= 0 && $this_score <= 2) {
                 $stream .= "class=\"btn btn-default\"";
 
             } else if ($this_score > 2 && $this_score <= 4) {
-          $stream .= "class=\"btn btn-warning\"";
+					$stream .= "class=\"btn btn-warning\"";
 
-        } else if ($this_score > 4 && $this_score <= 7) {
-          $stream .= "class=\"btn btn-danger\"";
+				} else if ($this_score > 4 && $this_score <= 7) {
+					$stream .= "class=\"btn btn-danger\"";
 
-        } else {
-          $stream .= "class=\"text-muted\""; //testing for rogue math!!!
+				} else {
+					$stream .= "class=\"text-muted\""; //testing for rogue math!!!
 
-        }
-        $stream .= "><strong>".$phrase[$i]."</strong></span> ";
+				}
+				$stream .= "><strong>".$phrase[$i]."</strong></span> ";
 
-    } else {
-      $stream .= $phrase[$i]." ";
-    }
-  }
-  $stream .= "</td></tr>";
+		} else {
+			$stream .= $phrase[$i]." ";
+		}
+	}
+	$stream .= "</td></tr>";
 }
 $stream .= "</tbody></table>";
 $stream_head = "<table class=\"table table-hover table-condensed\"><thead><th>$reply</th></thead><tbody>";
@@ -99,18 +99,18 @@ $result_set = $stream_head.$stream;
 //image switch based on score, not bothering with this as cosmetic and subject to change
 
    $score = intval($score);
-            switch($score) { 
+						switch($score) { 
                   
-          case $score >= 0 && $score < 5:
-            $picture = "img/intro-pic.jpg";
-            break;
-          case $score >= 5 && $score < 10:
-            $picture = "img/intro-pic.jpg";
-            break;
-          case $score >= 10:
-            $picture = "img/intro-pic.jpg";
-            break;
-        }                           
+					case $score >= 0 && $score < 5:
+						$picture = "img/intro-pic.jpg";
+						break;
+					case $score >= 5 && $score < 10:
+						$picture = "img/intro-pic.jpg";
+						break;
+					case $score >= 10:
+						$picture = "img/intro-pic.jpg";
+						break;
+				}                           
 ?>
 
 
@@ -144,11 +144,11 @@ include('header.php');
                      
 
                     case $score  > 0 && $score <= 5:
-            echo "Level 1 : You really dont use any negative language";
-            break;
+						echo "Level 1 : You really dont use any negative language";
+						break;
                      case $score > 5 && $score <= 30:
-            echo "Level 2 : You have the odd bad word.";
-            break;
+						echo "Level 2 : You have the odd bad word.";
+						break;
                       case $score > 30 && $score <= 60:
                         echo "Level 3 : You use pretty negative language"; 
                         break;
@@ -160,7 +160,7 @@ include('header.php');
                         break;
                  }
 
-        ?>                            
+				?>                            
           </p>
                 </div>
             </div>
@@ -178,7 +178,7 @@ include('header.php');
                     <hr>
                 <!-- go back to index in own box -->
           <p>
-            <a href="index.php"><button class="col-md-6 col-md-offset-3 btn btn-info" value="Try Different Screenname">Try Again</button></a>
+          	<a href="index.php"><button class="col-md-6 col-md-offset-3 btn btn-info" value="Try Different Screenname">Try Again</button></a>
           </p>
                 </div>
             </div>
@@ -186,8 +186,8 @@ include('header.php');
 
 
 
-      
-      <div class="row">
+    	
+    	<div class="row">
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
@@ -198,7 +198,7 @@ include('header.php');
                     <hr class="visible-xs">
                     
                     <!-- php results in own box -->
-                          <?php echo $result_set; ?>
+                    			<?php echo $result_set; ?>
     
                 </div>
             </div>
@@ -207,7 +207,7 @@ include('header.php');
         
         
         <!-- word analytics -->
-          <div class="row">
+        	<div class="row">
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
