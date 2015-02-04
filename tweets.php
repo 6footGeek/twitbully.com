@@ -19,46 +19,53 @@ $encode = json_encode($tweets);
 $response = json_decode($encode);
 
 //Global vars
-$time = '';
-$tweets = array();
-//Go through tweets
-foreach($response as $tweet)
-{
-  $time = "{$tweet->created_at}"; //Save latest time
-  $tweets[] = "{$tweet->text}"; //Store tweet text
-}
-$tweets_count = count($tweets); //Count tweets
-$reply = "We scored the last $tweets_count tweets by @$twitteruser, ending at $time:"; //Tell user whats what
-
-// Import txt
-ini_set("auto_detect_line_endings", 1);
-$scores = array(); //this is where data from data.txt will be stored
-
-$handle = fopen("negativelist.csv","r") or die("Cant access wordlist, check filename!");
-
-while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
-	//$row = explode(",", $data);
-	$word = trim(strtolower($row[0]));
-	$scores[$word] = trim($row[1]);
-}
-
-fclose($handle);
-
-
 $score = 0; //Starting score
 $stream = "";
 $detectedWords = 0;
 $allWords = 0;
 
-// Search for words in tweets
+$time = '';
+$tweets = array();
+
+foreach($response as $tweet) //Go through tweets
+{
+  $time = "{$tweet->created_at}"; //Save latest time
+  $tweets[] = "{$tweet->text}"; //Store tweet text
+}
+/////////////////////////////////
+$tweets_count = count($tweets); //Count amount of tweets in tweets array (this shouldnt be used. try $notweets)
+/////////////////////////////////
+
+$reply = "We scored the last $tweets_count tweets by @$twitteruser, ending at $time:"; //initial user interaction. tell whats happening
+
+// Import txt
+ini_set("auto_detect_line_endings", 1); //detect wordlist ending on each line
+$scores = array(); //this is where data from data.txt will be stored // 
+
+$handle = fopen("negativelist.csv","r") or die("Cant access wordlist, check filename!"); //open wordlist or fail
+
+while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
+	$word = trim(strtolower($row[0])); // make all words in tweet lower case and trim any symbols so doesnt skip words eg. "bastard!"
+	$scores[$word] = trim($row[1]); // find out what this does!!!
+}
+
+fclose($handle); //close file for safety
+
+
+// $score = 0; //Starting score
+// $stream = "";
+// $detectedWords = 0;
+// $allWords = 0;
+
+//explode all the tweets, 
 for($t=0;$t<$tweets_count;$t++) {
 	$phrase = explode(" ", $tweets[$t]);
 
 	$stream .= "<tr><td>";
 
-
+    //explode
 	for ($i=0,$max=count($phrase);$i<$max;$i++) {
-            ++$allWords;
+            ++$allWords; //increade all words
 		if (array_key_exists(strtolower($phrase[$i]), $scores)) {
         ++$detectedWords; //collect amount of words in array
 
@@ -191,7 +198,7 @@ include('header.php');
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-            <h2 class="intro-text text-center">What were the <strong>TwitBully results?</strong>
+            <h2 class="intro-text text-center">What were the <strong>TwitBully results? v1</strong>
                     </h2>
                     <hr>
                    
@@ -204,9 +211,9 @@ include('header.php');
             </div>
         </div>
         
-        
-        
-        <!-- word analytics -->
+
+
+        <!-- word analytics v3 -->
         	<div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -218,13 +225,17 @@ include('header.php');
                     <hr class="visible-xs">
                     <?php print "Amount of negative words detected: " . $detectedWords . " !" ?>
                     <?php print "Amount of words detected: " . $allWords . " !" ?>
-                    <?php print strtolower("<pre>" .  print_r($tweetAnalytics, true) ."</pre>")?>
+                    <pre>
+                    <?php foreach ($tweetAnalytics as $analyticDetectedWord)  echo "<pre>" . strtolower($analyticDetectedWord) . " </pre>" ;
+                    ?> </pre>
                 </div>
             </div>
         </div>
-<!-- close container tag --> 
+<!-- close container tag v3--> 
+
+
     </div> 
-<!-- close container tag -->
+<!-- close final container tag -->
     
     
 <?php
